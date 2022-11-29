@@ -1,10 +1,9 @@
-// import web3 from "./web3";
-// import CampaignDeployer from "./build/CampaignDeployer.json";
-import campaignDeployer from "./local-deploy.js";
-// const addresses = require("./local-deploy.js");
+import web3 from "./web3.js";
+import CampaignDeployer from "../ethereum/build/CampaignDeployer.json";
 
-console.log(campaignDeployer);
+const instance = new web3.eth.Contract(
+  CampaignDeployer.abi,
+  "0x6BF4BEf0e86e48C99cAe2Ae1ad15Ce0cf5da31FD"
+);
 
-// const instance = new web3.eth.Contract(
-
-// )
+export default instance;
