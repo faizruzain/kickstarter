@@ -12,7 +12,7 @@ import "semantic-ui-css/semantic.min.css";
 class App extends Component {
   render() {
     return (
-      <Container>
+      <Container style={{marginTop: "20px"}}>
         <Routes>
           <Route
             path="/"
