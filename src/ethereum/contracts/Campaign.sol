@@ -31,7 +31,7 @@ contract Campaign {
     uint public contractBalance;
     uint public approversCount;
 
-    uint private index;
+    uint public index; // for tracking how many requests this contract has
 
     constructor(uint minimum, address creator) { //minimum in wei
         manager = creator; //is address who send transaction
@@ -44,13 +44,14 @@ contract Campaign {
         approversCount++;
     }
 
-    function createRequest(string memory description, uint value, address payable recipient) public onlyManager {
-        Request storage newRequest = requests[index++];
+    function createRequest(string memory description, uint value, address payable recipient) public onlyContributor {
+        Request storage newRequest = requests[index];
         newRequest.description = description;
         newRequest.value = value;
         newRequest.recipient = recipient;
         newRequest.complete = false;
         newRequest.approvalsCount = 0;
+        index++;
 
         // "buat beli kabel", 22, 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2     
     }
@@ -65,7 +66,8 @@ contract Campaign {
         request.approvalsCount++;
     }
 
-    function finalizeRequest(uint _index) public onlyManager {
+    function finalizeRequest(uint _index) public {
+        require(msg.sender == manager );
         Request storage request = requests[_index];
         require(request.approvalsCount > (approversCount / 2));
         require(!request.complete);
@@ -73,7 +75,23 @@ contract Campaign {
         request.complete = true;
     }
 
-    modifier onlyManager() {
+    function getSummary() public view returns (
+        uint _contractBalance,
+        uint _minimunContribution,
+        uint _approversCount,
+        uint _index,
+        address _manager
+        ) {
+        return (
+            contractBalance,
+            minimunContribution,
+            approversCount,
+            index,
+            manager
+        );
+    }
+
+    modifier onlyContributor() {
         require(approvers[msg.sender]);
         _;
     }
