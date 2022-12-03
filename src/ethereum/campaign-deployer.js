@@ -3,7 +3,7 @@ import CampaignDeployer from "../ethereum/build/CampaignDeployer.json";
 
 const instance = new web3.eth.Contract(
   CampaignDeployer.abi,
-  "0x6BF4BEf0e86e48C99cAe2Ae1ad15Ce0cf5da31FD"
+  "0xA14b337dFaf5229f65972b76aD9dBbfb332182f8"
 );
 
 export default instance;
